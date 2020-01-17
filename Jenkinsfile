@@ -42,7 +42,7 @@ pipeline {
       }
       steps{
 					sh "chmod +x ./scripts/Deploy_ws.sh"
-          sh "./scripts/Deploy_ws.sh ${docker_dev_name} ${registry} ${rep_name} latest"
+          sh "./scripts/Deploy_ws.sh ${docker_name} ${registry} ${rep_name} latest"
           sh "echo Web Server lunched successfuly"
       }
     }
