@@ -48,10 +48,10 @@ pipeline {
       stage("Get&Print Input") {
         steps {
           script{
-            def userInput = input(id: 'userInput', message: 'Let\'s promote?', 
+            def userInput = input(id: 'userInput', message: 'Let\'s say something?', 
             parameters: [
-              [$class: 'TextParameterDefinition', defaultValue: 'uat', description: 'Environment', name: 'Input']])
-            echo ("Env: "+userInput)
+              [$class: 'TextParameterDefinition', defaultValue: 'type your answer here', description: 'Environment', name: 'Input']])
+            echo ("Your input: "+userInput)
           }
         }
       }
