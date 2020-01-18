@@ -1,2 +1,2 @@
-# Automated-actions
-Automating nowadays manual hard-coded actions using jenkins pipelines (webhooks) and scripts
+# Python-jenkins-deployment
+Deploying python web server application using Jenkins CI tool and k8s
