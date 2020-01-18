@@ -46,17 +46,17 @@ pipeline {
           sh "echo Web Server lunched successfuly"
       }
     }
-    // stage("Kubernetes Deployment") {
-    //   agent { label 'k8s' }
-    //   when{ 
-    //     branch "Python-Deploy"
-    //   }
-    //   steps{
-    //     sh "echo Kubernetes deployment is running."
-    //     sh "chmod +x ./scripts/k8s_Deploy.sh"
-    //     sh "./scripts/k8s_Deploy.sh"
-    //   }
-    // }
+    stage("Kubernetes Deployment") {
+      agent { label 'k8s' }
+      when{ 
+        branch "Kubernetes-Deploy"
+      }
+      steps{
+        sh "echo Kubernetes deployment is running."
+        sh "chmod +x ./scripts/k8s_Deploy.sh"
+        sh "./scripts/k8s_Deploy.sh"
+      }
+    }
     stage("Build/Push base image") {
       when{ 
         branch "Python-Deploy"

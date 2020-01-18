@@ -1,0 +1,20 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: pythonapp
+spec:
+    selector:
+    matchLabels:
+        app: pythonapp
+    replicas: 2
+    template:
+    metadata:
+        labels:
+        app: pythonapp
+    spec:
+        containers:
+        - name: docker-python-app
+        image: yp29/pythondeploy:pythonapp-latest
+        ports:
+        - containerPort: 8081
