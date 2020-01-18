@@ -24,8 +24,10 @@ pipeline {
     }
     stage('Build/Push latest image') {
       when{ 
-        branch "Python-Deploy"
+        anyOf { 
+					branch "Python-Deploy"; branch "Kubernetes-Deploy"
         }
+      }
       steps{
         sh "echo Build/Publish the latest version is running."
         script{
@@ -59,7 +61,9 @@ pipeline {
     }
     stage("Build/Push base image") {
       when{ 
-        branch "Python-Deploy"
+        anyOf { 
+					branch "Python-Deploy"; branch "Kubernetes-Deploy"
+        }
       }
       steps{
         sh "echo Build/Publish the base version is running."
