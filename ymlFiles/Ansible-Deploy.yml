@@ -1,0 +1,24 @@
+---
+- hosts: deploy
+  become: yes
+  become_method: sudo
+  become_user: jenkins
+  tasks:
+    - name: Stop python web server container
+      docker_container:
+        image: yp29/pythondeploy:pythonapp-latest
+        name: docker-python-app
+        state: absent
+
+    - name: Remove python web server image
+      docker_image:
+        name: yp29/pythondeploy
+        tag: pythonapp-latest
+        state: absent
+
+    - name: Run python web server container
+      docker_container:
+        image: yp29/pythondeploy:pythonapp-latest
+        name: docker-python-app
+        published_ports: 83:8081
+        state: started

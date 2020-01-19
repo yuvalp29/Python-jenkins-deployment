@@ -1,5 +1,4 @@
 pipeline {
-  
   environment {
   commit_id          = ""
   ustomImage         = ""
@@ -25,7 +24,7 @@ pipeline {
     stage('Build/Push latest image') {
       when{ 
         anyOf { 
-					branch "Python-Deploy"; branch "Kubernetes-Deploy"
+					branch "Python-Deploy"; branch "Ansible-Deploy"; branch "Kubernetes-Deploy"
         }
       }
       steps{
@@ -48,6 +47,33 @@ pipeline {
           sh "echo Web Server lunched successfuly"
       }
     }
+    stage('Ansible Test') {
+      when{ 
+        branch "Ansible-Deploy"
+      }
+      steps{
+        sh "echo Ansible tests are running."
+          sh "ansible-playbook -i ./Inventory/hosts.ini -u jenkins ./ymlFiles/TestConnection.yml"
+      }
+    }
+    stage('Ansible Installations') {
+      when{ 
+        branch "Ansible-Deploy"
+      }
+      steps{
+        sh "echo Ansible installations are running."
+        sh "ansible-playbook -i ./Inventory/hosts.ini -u jenkins ./ymlFiles/Prerequisites.yml"
+      }
+    }
+    stage('Ansible Deployment') {
+      when{ 
+        branch "Ansible-Deploy"
+      }
+      steps{
+        sh "echo Ansible deployment is running."
+        sh "ansible-playbook -i ./Inventory/hosts.ini -u jenkins ./ymlFiles/Ansible-Deploy.yml"
+      }
+    }
     stage("Kubernetes Deployment") {
       agent { label 'k8s' }
       when{ 
@@ -62,7 +88,7 @@ pipeline {
     stage("Build/Push base image") {
       when{ 
         anyOf { 
-					branch "Python-Deploy"; branch "Kubernetes-Deploy"
+					branch "Python-Deploy"; branch "Ansible-Deploy"; branch "Kubernetes-Deploy"
         }
       }
       steps{
